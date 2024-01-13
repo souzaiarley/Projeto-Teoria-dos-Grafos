@@ -1,0 +1,7 @@
+Pseudo-Código do Algoritmo de Kosaraju-Sharir
+
+1. Chamar o algoritmo de busca em profundidade para computar os tempos de término para cada vértice.
+2. Computar o grafo transposto.
+3. Chamar o algoritmo de busca em profundidade no grafo transposto, mas no laço principal do DFS, considerar os vértices na ordem decrescente dos tempos de término.
+4. Cada árvore da floresta resultante é um componente fortemente conexo.
+

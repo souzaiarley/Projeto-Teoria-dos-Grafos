@@ -1,0 +1,6 @@
+# Ignores all extension-less files
+*
+!*/
+!*.*
+# Except makefiles
+![Mm]akefile

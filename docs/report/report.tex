@@ -1,0 +1,77 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\usepackage{biblatex}
+\usepackage{csquotes}
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+\addbibresource{refs.bib}
+
+\title{\textbf{Projeto Final: \\ Problemas de Grafos}}
+\date{}
+\author{Antônio Joabe Alves Morais \\ Iarley Natã Lopes Souza}
+
+\begin{document}
+    \maketitle
+
+    \section{[Problema 1] Colorindo os vértices do grafo com duas cores}
+        \subsection{Descrição da solução}
+            Na solução, o primeiro vértice ($v_0$) no grafo é pintado de vermelho, portanto todos os vizinhos deverão ser pintados com a cor contrária: Azul.
+
+            A partir disto, forma-se um efeito cascata: Ao analizarmos um vértice $v$, verificamos seus vizinhos. Se um vizinho $u$ for branco, devemos pintá-lo com a cor contrária de $v$, caso contrário (se $u$ não for branco), comparamos as cores de $v$ e $u$.
+
+            Se $v$ e $u$ possuírem cores diferentes, a execução do algoritmo irá prosseguir normalmente. Se possuírem cores iguais, o algoritmo será interrompido, assim indicando que não é possível bipartir o grafo.
+
+        \subsection{Complexidade}
+            A complexidade será dada, de acordo com a notação \emph{Big O}, por:
+            $$ O(V + E) $$
+            A justificativa se dá pelo fato do algoritmo visitar todos os vértices e arestas, já que precisamos verificar a cor de todos eles, a fim de saber se um grafo é bipartido ou não.
+
+            A notação, portanto, irá indicar que a complexidade de tempo de execução cresce de acordo com a soma desses dois termos, vértices ($V$) e arestas ($E$), de forma diretamente proporcional.
+
+    \section{[Problema 2] Seis graus de Kevin Bacon}
+        \subsection{Descrição da solução}
+            Neste problema, é necessária apenas a aplicação da \emph{BFS} (Breadth-First Search) \cite{AtilioBFS}, já que o algoritmo já conta com o armazenamento das distâncias de todos os vértices dado uma origem, neste caso, Kevin Bacon.
+
+            Portanto, dado um grafo não-direcionado, a \emph{BFS} irá fornecer os números de Bacon que o problema demanda por meio das distâncias armazenadas na execução do algoritmo.
+
+        \subsection{Complexidade}
+            Essa solução exige um tempo de execução:
+            $$ O(V + E\log{V}) $$
+            Analizando o algoritmo de busca de forma agregada, temos que o tempo de inicialização onde se visita os vértices se dá por $O(V)$, assim como o tempo gasto com a fila.
+
+            Ao percorrer as adjacências (arestas) - por causa da estrutura usada (\texttt{map}), que usa $O(\log{V})$ para realizar operações de inserção, busca e remoção - será exigido tempo $O(E\log{V})$.
+
+            Portanto, a análise de complexidade será de $O(V + E\log{V})$.
+    \section{[Problema 3] Vias de mão dupla}
+        \subsection{Descrição da solução}
+            A solução se divide em duas etapas:
+            \begin{enumerate}
+                \item Identificar as arestas que são pontes: \cite{GeeksForGeeksBridges}
+                    Através de uma \emph{DFS} \cite{AtilioDFS} modificada, são encontradas as arestas que são pontes, que são depois removidas, dividindo o grafo em componentes desconectados. Essas arestas são armazenadas em um vetor de pares $(u, v)$.
+                \item Direcionamento das arestas não-pontes: \cite{GeeksForGeeksConvert}
+                    Em seguida, uma nova \emph{DFS} é realizada para direcionar as arestas restantes. Para cada vértice, como o grafo ainda é não-direcionado, o algoritmo irá retirar, digamos, a aresta $(v, u)$, deixando a aresta $(u, v)$, onde $u$ é o vértice analisado e $v$ é um vizinho de $u$.
+
+                    Isso é feito para cada vértice, e a \emph{DFS} é executada novamente.
+
+                    Quando um vértice não possuir mais vizinhos ainda não visitados, o tempo de descoberta do mesmo é comparado com o do seu vizinho: se for maior, a aresta $(v, u)$ será removida.
+            \end{enumerate}
+            Depois disso, as arestas que são pontes são adicionadas novamente ao grafo, e o mesmo é ordenado e impresso.
+
+        \subsection{Complexidade}
+            A solução tem complexidade:
+            $$ O((V + E) + V\log{V}) $$
+            Ambas as \emph{DFS}'s têm complexidades $O(V + E)$, já que são algoritmos de busca em profundidade, com alterações que não modificam a complexidade. Portanto: $O(2 \times (V + E))$. Como a notação \emph{Big O} elimina constantes, a complexidade será: $O(V + E)$.
+
+            A ordenação tem complexidade $O(V\log{V})$, que ocorre para ordenar os vizinhos na lista de adjacência.
+
+            Portanto, a complexidade total é $O((V + E) + V\log{V})$.
+
+    \pagebreak
+    \printbibliography
+\end{document}
